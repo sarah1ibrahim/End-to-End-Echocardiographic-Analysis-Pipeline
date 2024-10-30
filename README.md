@@ -21,7 +21,13 @@ ___
 
 ***
 
-<span style="color: blue;">Our Team</span>
+###Our Team
+- Rana Hany Mahmoud 
+- Sarah Ibrahim Abdelfattah 
+- Sarah Mohamed Mohamed
+- Luna Eyad
+- Yassmeen Tarek 
+
 
 
 
