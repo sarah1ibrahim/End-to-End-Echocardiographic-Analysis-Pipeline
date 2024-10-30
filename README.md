@@ -1,5 +1,4 @@
 # End-to-End-Echocardiographic-Analysis-Pipeline
-***
 
 ## Introduction 
 Our project aims to develop an intelligent, AI-powered pipeline that automates the extraction of key clinical parameters from echocardiographic images. By leveraging advanced image processing techniques, this system transforms raw medical images into structured, physician-ready reports.
