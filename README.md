@@ -1,22 +1,50 @@
-# End-to-End-Echocardiographic-Analysis-Pipeline
+# End-to-End Echocardiographic Analysis Pipeline
 
-## Introduction 
-Our project aims to develop an intelligent, AI-powered pipeline that automates the extraction of key clinical parameters from echocardiographic images. By leveraging advanced image processing techniques, this system transforms raw medical images into structured, physician-ready reports.
-Integrated with an interactive web application whitch  allows healthcare professionals to review, customize, and finalize reports, supporting a streamlined workflow. This system not only reduces the time required for analysis but also ensures standardized and accurate clinical information, ultimately improving patient outcomes and enabling timely, data-driven decision-making.
+## Overview
+An AI-powered system for automated assessment and reporting of heart function through echocardiographic analysis. This project streamlines diagnostic workflows, enhances assessment accuracy, and provides robust tools for patient monitoring and reporting.
 
+## Project Goals
+- Develop a comprehensive echocardiographic analysis pipeline
+- Automate heart function assessment and reporting
+- Improve clinical workflow efficiency
+- Enable accurate patient monitoring over time
 
-___
+## Technical Pipeline
 
+### 1. Segmentation
+- **Supervised Learning Approach**
+  - Segments myocardium and blood within heart chambers
+  - Utilizes reference images for training
+  
+- **Unsupervised Learning Approach**
+  - Alternative method for cases without image masks
+  - Validation against supervised methods
+  - Potential extension to additional cross-sectional views
 
-## Project Features
+### 2. Time Frame Detection
+- Automated detection of systolic and diastolic frames
+- Implements both AI and deterministic methods
 
-- [ ] Automated Image Segmentation
-- [ ] Time Frame Detection
-- [ ] Noise Reduction
-- [ ] Dual Segmentation Techniques
-- [ ] Report Generation 
-- [ ] Interactive Web Application
+### 3. Clinical Parameters Calculation
+- Myocardium volume
+- Cardiac blood volume
+- Stroke volume
+- Ejection fraction
 
+### 4. Reporting System
+- Integration of pre-trained LLM models
+- Generation of structured clinical reports
+
+## Web Application Features
+- Parameter input and visualization
+- Segmentation editing capabilities
+- Report editing and customization
+- Patient progress tracking across multiple visits
+
+## Future Development
+- Expansion of unsupervised learning techniques to additional views
+- Enhancement of reporting capabilities
+- Integration with existing clinical workflows
 
 ***
 
@@ -25,7 +53,7 @@ ___
 - Sarah Ibrahim Abdelfattah 
 - Sarah Mohamed Mohamed
 - Luna Eyad
-- Yassmeen Tarek 
+- Yasmin Tarek 
 
 
 
