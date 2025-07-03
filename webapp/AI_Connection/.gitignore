@@ -1,0 +1,16 @@
+# Virtual environment
+venv/
+
+# Raw data files
+AI_CONNECTION/raw_*
+
+# Bytecode and cache
+__pycache__/
+*.py[cod]
+
+# Binary files
+*.bin
+
+# OS-specific
+.DS_Store
+Thumbs.db
