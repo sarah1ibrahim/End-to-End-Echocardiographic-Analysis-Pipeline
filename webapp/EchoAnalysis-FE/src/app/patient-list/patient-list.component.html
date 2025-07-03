@@ -1,0 +1,302 @@
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg border mt-14 ml-2 mr-2 border-[#2c2c2c] p-2">
+  <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-[#202022] text-gray-300 mt-8">
+        <!-- <div>
+            <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction" class="inline-flex items-center text-gray-300 bg-[#202022] border border-[#2c2c2c] focus:outline-none hover:bg-black focus:ring-4 focus:ring-gray-700 font-medium rounded-lg text-sm px-3 py-1.5 ml-2 mt-1" type="button">
+                <span class="sr-only">Action button</span>
+                Action
+                <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                </svg>
+            </button>
+            
+            <div id="dropdownAction" class="z-10 hidden bg-[#202022] divide-y divide-[#202022] rounded-lg shadow-md w-44 ">
+                <ul class="py-1 text-sm text-gray-300" aria-labelledby="dropdownActionButton">
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-black">Reward</a>
+                    </li>
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-black">Promote</a>
+                    </li>
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-black">Activate account</a>
+                    </li>
+                </ul>
+                <div class="py-1">
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-black">Delete User</a>
+                </div>
+            </div>
+        </div> -->
+        <label for="table-search" class="sr-only">Search</label>
+        <div class="relative mt-10">
+            <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                </svg>
+            </div>
+            <input type="text" id="table-search-users" class="block p-2 ps-10 text-sm text-gray-300 border border-[#2c2c2c] rounded-lg w-80 bg-black focus:ring-gray-700 focus:border-gray-700 " placeholder="Search for users">
+        </div>
+          <!-- Add Patient Button -->
+  <div class="flex justify-end mb-4">
+    <button
+      class="flex items-center px-4 py-2 bg-green-600 text-gray-100 rounded-lg border border-[#2c2c2c] hover:bg-green-700 focus:ring-2 focus:ring-green-500 transition duration-200"
+      (click)="toggleAddForm()"
+      [disabled]="editingPatientId !== null"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-5 h-5 mr-2"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 4v16m8-8H4"
+        />
+      </svg>
+      Add Patient
+    </button>
+  </div>
+    </div>
+  
+    <!-- Add Patient Modal -->
+  @if (showAddForm) {
+    <div
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      (click)="toggleAddForm()"
+    >
+      <div
+        class="bg-[#202022] p-6 rounded-lg shadow-lg w-full max-w-lg border border-[#2c2c2c] relative"
+        (click)="$event.stopPropagation()"
+      >
+        <h2 class="text-xl font-semibold text-gray-100 mb-6">Add New Patient</h2>
+        <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="col-span-1">
+            <label
+              for="first_name"
+              class="block text-sm font-medium text-gray-300 mb-1"
+              >First Name <span class="text-red-500">*</span></label
+            >
+            <input
+              id="first_name"
+              type="text"
+              [(ngModel)]="newPatient.first_name"
+              name="first_name"
+              placeholder="Enter first name"
+              class="w-full p-2 text-sm text-gray-300 bg-black border border-[#2c2c2c] rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200"
+              required
+            />
+          </div>
+          <div class="col-span-1">
+            <label
+              for="last_name"
+              class="block text-sm font-medium text-gray-300 mb-1"
+              >Last Name <span class="text-red-500">*</span></label
+            >
+            <input
+              id="last_name"
+              type="text"
+              [(ngModel)]="newPatient.last_name"
+              name="last_name"
+              placeholder="Enter last name"
+              class="w-full p-2 text-sm text-gray-300 bg-black border border-[#2c2c2c] rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200"
+              required
+            />
+          </div>
+          <div class="col-span-1">
+            <label
+              for="Bdate"
+              class="block text-sm font-medium text-gray-300 mb-1"
+              >Birth Date <span class="text-red-500">*</span></label
+            >
+            <input
+              id="Bdate"
+              type="date"
+              [(ngModel)]="newPatient.Bdate"
+              name="Bdate"
+              class="w-full p-2 text-sm text-gray-300 bg-black border border-[#2c2c2c] rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200"
+              required
+            />
+          </div>
+          <div class="col-span-1">
+            <label
+              for="sex"
+              class="block text-sm font-medium text-gray-300 mb-1"
+              >Sex <span class="text-red-500">*</span></label
+            >
+            <select
+              id="sex"
+              [(ngModel)]="newPatient.sex"
+              name="sex"
+              class="w-full p-2 text-sm text-gray-300 bg-black border border-[#2c2c2c] rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200"
+              required
+            >
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div class="col-span-1">
+            <label
+              for="phone"
+              class="block text-sm font-medium text-gray-300 mb-1"
+              >Phone Number <span class="text-red-500">*</span></label
+            >
+            <input
+              id="phone"
+              type="text"
+              [(ngModel)]="newPatient.phone"
+              name="phone"
+              placeholder="Enter phone number"
+              class="w-full p-2 text-sm text-gray-300 bg-black border border-[#2c2c2c] rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200"
+              required
+            />
+          </div>
+          <div class="col-span-1">
+            <label
+              for="weight"
+              class="block text-sm font-medium text-gray-300 mb-1"
+              >Weight (kg)</label
+            >
+            <input
+              id="weight"
+              type="number"
+              [(ngModel)]="newPatient.weight"
+              name="weight"
+              placeholder="Enter weight"
+              class="w-full p-2 text-sm text-gray-300 bg-black border border-[#2c2c2c] rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200"
+            />
+          </div>
+          <div class="col-span-1">
+            <label
+              for="height"
+              class="block text-sm font-medium text-gray-300 mb-1"
+              >Height (cm)</label
+            >
+            <input
+              id="height"
+              type="number"
+              [(ngModel)]="newPatient.height"
+              name="height"
+              placeholder="Enter height"
+              class="w-full p-2 text-sm text-gray-300 bg-black border border-[#2c2c2c] rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200"
+            />
+          </div>
+        </form>
+        <div class="flex justify-end mt-6">
+          <button
+            class="px-4 py-2 bg-green-600 text-gray-100 rounded-lg hover:bg-green-700 focus:ring-2 focus:ring-green-500 transition duration-200 mr-2"
+            (click)="addPatient()"
+          >
+            Add Patient
+          </button>
+          <button
+            class="px-4 py-2 bg-gray-600 text-gray-100 rounded-lg hover:bg-gray-700 focus:ring-2 focus:ring-gray-500 transition duration-200"
+            (click)="toggleAddForm()"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+  
+  <table class="w-full text-sm text-left rtl:text-right text-gray-300">
+    <thead class="text-xs text-gray-400 uppercase bg-[#2a2a2c]">
+      <tr>
+        <th scope="col" class="p-4">
+          <div class="flex items-center">
+            <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-gray-300 bg-black border border-[#2c2c2c] rounded-sm focus:ring-gray-700 dark:focus:ring-gray-700 focus:ring-2">
+            <label for="checkbox-all-search" class="sr-only">checkbox</label>
+          </div>
+        </th>
+        <th scope="col" class="px-6 py-3">ID</th>
+        <th scope="col" class="px-6 py-3">Name</th>
+        <th scope="col" class="px-6 py-3">Age</th>
+        <th scope="col" class="px-6 py-3">Sex</th>
+        <th scope="col" class="px-6 py-3">Phone</th>
+        <th scope="col" class="px-6 py-3">Reports</th>
+        <th scope="col" class="px-6 py-3">Images</th>
+        <th scope="col" class="px-6 py-3">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (patient of patientsList; track $index) {
+        <tr class="bg-black border-b border-[#2c2c2c] hover:bg-[#202022]">
+          <td class="w-4 p-4">
+            <div class="flex items-center">
+              <input id="checkbox-table-search-{{patient.id}}" type="checkbox" class="w-4 h-4 text-gray-300 bg-black border border-[#2c2c2c] rounded-sm focus:ring-gray-700 dark:focus:ring-gray-700 focus:ring-2">
+              <label for="checkbox-table-search-{{patient.id}}" class="sr-only">checkbox</label>
+            </div>
+          </td>
+          <th scope="row" class="flex items-center px-6 py-4 text-gray-300 whitespace-nowrap">
+            <div class="ps-1">
+              <div class="text-base font-semibold">{{patient.id}}</div>
+            </div>
+          </th>
+          <td class="px-6 py-4">
+            @if (editingPatientId === patient.id) {
+              <input type="text" [(ngModel)]="editedPatient!.first_name" class="p-2 text-sm text-gray-300 border border-[#2c2c2c] rounded-lg bg-black focus:ring-gray-700 focus:border-gray-700">
+              <input type="text" [(ngModel)]="editedPatient!.last_name" class="p-2 text-sm text-gray-300 border border-[#2c2c2c] rounded-lg bg-black focus:ring-gray-700 focus:border-gray-700 mt-2">
+            } @else {
+              {{patient.first_name}} {{patient.last_name}}
+            }
+          </td>
+          <td class="px-6 py-4">
+            {{calcBirthDate(patient.Bdate)}}
+          </td>
+          <td class="px-6 py-4">
+            @if (editingPatientId === patient.id) {
+              <select [(ngModel)]="editedPatient!.sex" class="p-2 text-sm text-gray-300 border border-[#2c2c2c] rounded-lg bg-black focus:ring-gray-700 focus:border-gray-700">
+                <option value="male">male</option>
+                <option value="female">female</option>
+              </select>
+            } @else {
+              {{patient.sex}}
+            }
+          </td>
+          <td class="px-6 py-4">
+            @if (editingPatientId === patient.id) {
+              <input type="text" [(ngModel)]="editedPatient!.phone" class="p-2 text-sm text-gray-300 border border-[#2c2c2c] rounded-lg bg-black focus:ring-gray-700 focus:border-gray-700">
+            } @else {
+              {{patient.phone}}
+            }
+          </td>
+          <td class="px-6 py-4">
+            <a href="#" class="font-medium text-white hover:underline">View Reports</a>
+          </td>
+          <td class="px-6 py-4">
+            <a href="#" class="font-medium text-white hover:underline">View Images</a>
+          </td>
+          <td class="px-6 py-4">
+            @if (editingPatientId === patient.id) {
+              <button class="mr-4 p-2 bg-green-500 text-white rounded hover:bg-green-700" (click)="saveEdit()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </button>
+              <button class="p-2 bg-gray-500 text-white rounded hover:bg-gray-700" (click)="cancelEdit()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            } @else {
+              <button class="mr-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-700" (click)="startEdit(patient)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-white hover:text-blue-400 transition">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487a2.1 2.1 0 113 2.96L7.5 19.5 3 21l1.5-4.5 12.362-12.013z" />
+                </svg>
+              </button>
+              <button class="p-2 bg-red-500 text-white rounded hover:bg-red-700" (click)="deletePatient(patient.id, patient.first_name + ' ' + patient.last_name)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                </svg>
+              </button>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

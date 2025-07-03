@@ -1,0 +1,605 @@
+
+
+
+
+
+@if (!isLoaded) {
+
+  <div class="relative min-h-screen flex items-center justify-center bg-[#1a1a1c] text-gray-200 overflow-hidden">
+    <!-- Background Image with Overlay -->
+    <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('/assets/images/echo-bg.jpg');margin-top: 30px;"></div>
+  
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-black/80"></div>
+  
+    <!-- Main Content -->
+    <div class="relative z-10 flex flex-col items-center text-center p-8 mx-4 mt-8 ">
+      <!-- Upload Section: Hidden when image is selected -->
+       @if (!selectedImage) {
+        <div class="w-full flex flex-col items-center">
+        <h1 class="text-4xl font-extrabold tracking-tight text-white md:text-5xl animate-fadeIn">
+          Echocardiography Segmentation
+        </h1>
+        <p class="mt-4 text-lg text-gray-400 leading-relaxed">
+          Upload an echocardiogram image and enter patient details for analysis 
+        </p>
+        <button
+          (click)="onUploadClick()"
+          aria-label="Upload an image for echocardiography analysis"
+          class="mt-8 px-8 py-4 bg-blue-600 text-white text-lg font-semibold rounded-xl hover:bg-blue-700 active:bg-blue-800 transform hover:scale-105 transition-all duration-300 flex items-center space-x-3 shadow-lg"
+        >
+          <img src="assets/icons/upload.svg" alt="Upload Icon" class="w-6 h-6 filter invert" />
+          <!-- <span>Upload Image</span> -->
+          <span>Upload a Scan</span>
+        </button>
+        <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/jpeg,image/png,image/gif" class="hidden" />
+      </div>}
+      
+      @if (selectedImage) {
+  
+        <div class="relative z-10 flex flex-col items-center text-center p-6 max-w-3xl mx-4 bg-[#202022]/80 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-700/50">
+          <!-- Hidden File Input -->
+        <input
+          type="file"
+          #fileInput
+          (change)="onFileSelected($event)"
+          accept="image/jpeg,image/png,image/gif"
+          class="hidden"
+        />
+    
+        <!-- Patient ID Input and Preview Section -->
+         @if (selectedImage || patientId) {
+          <div class="mt-8 w-full flex flex-col items-center gap-6">
+          <!-- Patient ID Input -->
+          <!-- Patient ID Input with Error Container -->
+            <div class="w-full max-w-md relative">
+  <label for="patientId" class="block text-sm font-medium text-gray-300 mb-2">Patient ID</label>
+
+  <!-- Input + Icon Container -->
+  <div class="relative">
+    <input
+      id="patientId"
+      [(ngModel)]="patientId"
+      type="text"
+      placeholder="Enter Patient ID"
+      class="w-full pr-10 px-4 py-3 bg-[#2c2c2c] text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 placeholder-gray-500"
+      aria-required=""
+    />
+
+    <!-- Error Triangle Icon + Tooltip (Always Shown if Error) -->
+    @if (uploadErrorMsg) {
+      <div  class="absolute top-1/2 right-3 -translate-y-1/2 text-red-500 z-30">
+      <!-- Triangle Icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-current" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M10 2a1 1 0 01.894.553l7 14A1 1 0 0117 18H3a1 1 0 01-.894-1.447l7-14A1 1 0 0110 2zm0 5a1 1 0 00-.993.883L9 8v3a1 1 0 001.993.117L11 11V8a1 1 0 00-1-1zm.002 7a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5z" clip-rule="evenodd" />
+      </svg>
+
+      <!-- Tooltip Box -->
+      <div class="absolute top-full right-0 mt-2 w-64 bg-red-100 text-red-700 text-sm px-4 py-2 rounded shadow-lg border border-red-400">
+        <!-- Arrow -->
+        <div class="absolute -top-2 right-2 w-3 h-3 bg-red-100 border-l border-t border-red-400 transform rotate-45"></div>
+        {{ uploadErrorMsg }}
+      </div>
+    </div>
+    }
+  </div>
+</div>
+
+    
+          <!-- Image Preview -->
+           @if (selectedImage) {<div class="w-full">
+            <h2 class="text-xl font-semibold text-white">Image Preview</h2>
+            <img
+              [src]="selectedImage"
+              alt="Uploaded Echocardiogram Image"
+              class="mt-4 w-full max-w-2xl h-auto rounded-lg shadow-md object-contain max-h-96"
+            />
+          </div>}
+          
+    
+        </div>
+         }
+        
+    
+        <!-- Action Buttons: Next and Upload Again -->
+         @if (selectedImage && patientId) {
+          <div class="mt-3 flex sm:flex-row items-center gap-4 ">
+            <button
+              (click)="onUploadClick()"
+              class="px-4 py-2 bg-blue-600 text-white text-lg font-semibold rounded-md hover:bg-blue-700 active:bg-blue-800 transform hover:scale-105 transition-all duration-300 shadow-lg"
+              aria-label="Upload another image"
+            >
+             Upload Again
+            </button>
+          <button
+            (click)="goToNextPage()"
+            class="px-4 py-2 bg-green-600 text-white text-lg font-semibold rounded-md hover:bg-green-700 active:bg-green-800 transform hover:scale-105 transition-all duration-300 shadow-lg"
+            aria-label="Proceed to analysis page"
+          >
+            Next
+            @if(isLoading){
+              <span><li class="fas fa-spin fa-spinner"></li></span>
+            }
+          </button>
+        </div>
+         }
+         <!-- @if(uploadErrorMsg){
+             <p class="mt-6 w-full max-w-md text-sm bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-md text-left animate-fadeIn">
+              {{ uploadErrorMsg }}
+            </p>
+         } -->
+         
+        </div>
+      }
+      
+    </div>
+    
+  </div>
+}
+
+
+@if (isLoaded) {
+<div>
+
+  <div class="relative mt-9 p-0 w-full ">
+  
+    <div class="w-full bg-[#202022] text-white px-6 py-3 flex justify-between items-center border border-[#2c2c2c] mt-14">
+  <div class="space-x-4 text-sm">
+    <span><strong>Name:</strong> {{ patientData.first_name }} {{patientData.last_name}}</span>
+    <span><strong>Age:</strong> {{ calcBirthDate(patientData.Bdate) }}</span>
+    <span><strong>Sex:</strong> {{ patientData.sex }}</span>
+    <!-- <span><strong>Sex:</strong> {{ patientData.sex }}</span> -->
+    <span><strong>Date:</strong> {{ patientData.createdAt | date:'d MMMM y, h:mm a' }}</span>
+    @if(measurementRawData){
+      <span><strong>Indication:</strong> {{ measurementRawData.interpretation }}</span>
+    }
+    
+  </div>
+  <div class="flex flex-col space-y-1">
+    <a routerLink="/reports" class="bg-blue-600 hover:bg-blue-700 px-4 py-1 rounded text-sm font-medium text-white inline-block text-center">
+  Generate Report
+</a>
+
+    <!-- <button class="bg-blue-600 hover:bg-blue-700 px-4 py-1 rounded text-sm font-medium"(click)="openClinicalAnalysisModal()">Clinical Analysis</button> -->
+    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-1 rounded text-sm font-medium"(click)="openClinicalAnalysisModal()">Start Measurement</button>
+  </div>
+  
+</div>
+  </div>
+  <div class=" bg-[#151515] text-gray-200 min-h-screen p-0 w-full " >
+    
+    <!-- <h2 class="text-2xl font-bold mb-4">Segmentation Analysis</h2> -->
+    <!-- Error Message -->
+    @if (error) {
+      <div class="mt-4 text-red-400 ">{{ error }}</div>
+    }
+  
+    <!-- Image Viewers -->
+    <div class="flex space-x-1 w-full "> 
+      <!-- this flex space-x-6 to make them horizontal beside each other -->
+      <!-- <div class="space-y-6 "></div> this make them below each other -->
+       
+         <div class="w-full">
+           <div class="flex space-x-1 w-full mt-0.5 ml-[2px] mb-0">
+             
+             <!-- Original Image Viewer -->
+             @if (originalImageUrl) {
+               <div class="w-full">
+                 <!-- <h3 class="text-lg mb-2">Original Image</h3> -->
+                 <div class="bg-black image-section relative original-image-section rounded-t-lg border-4 border-[#202022] flex items-center justify-center"
+                 [ngClass]="measurementCalc ? 'h-[300px]' : 'h-[550px]'">
+                   <!-- <div class="bg-black image-section relative original-image-section rounded-lg border-2 border-gray-800"> -->
+         
+                   <img
+                     #originalImage
+                     [src]="originalImageUrl"
+                     alt="Original Image"
+                     class="max-h-full max-w-full object-contain"
+                   />
+                   <canvas
+                     #canvas
+                     class="absolute top-0 left-0 w-full h-full pointer-events-auto"
+                     (mousedown)="startMeasuring($event)"
+                      (mousemove)="updateMeasuring($event)"
+                      (mouseup)="endMeasuring($event)"
+                   ></canvas>
+                 </div>
+         
+                 <div class="tools panel bg-[#202022] pl-2 pb-1 rounded-b-lg flex space-x-2 h-6">
+                   <button
+                     (click)="zoomInOriginal()"
+                     class="bi bi-zoom-in"
+                     
+                   >
+                   <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-zoom-in" viewBox="0 0 16 16">
+           <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11M13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/>
+           <path d="M10.344 11.742q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1 6.5 6.5 0 0 1-1.398 1.4z"/>
+           <path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5"/>
+         </svg>
+                   
+                   </button>
+                   <button
+                     (click)="zoomOutOriginal()"
+                     class="bi bi-zoom-out"
+                   >
+                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-zoom-out" viewBox="0 0 16 16">
+           <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11M13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/>
+           <path d="M10.344 11.742q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1 6.5 6.5 0 0 1-1.398 1.4z"/>
+           <path fill-rule="evenodd" d="M3 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5"/>
+         </svg>
+                   </button>
+                   <button
+                     (click)="rotateOriginal()"
+                     class="bi bi-arrow-counterclockwise"
+                   >
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5 bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+           <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+           <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+         </svg>
+                   </button>
+         
+                   <button (click)="mode = 'measure'" >
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+       <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
+     </svg>
+                   </button>
+                   <button (click)="mode = 'pan'">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-index" viewBox="0 0 16 16">
+         <path d="M6.75 1a.75.75 0 0 1 .75.75V8a.5.5 0 0 0 1 0V5.467l.086-.004c.317-.012.637-.008.816.027.134.027.294.096.448.182.077.042.15.147.15.314V8a.5.5 0 1 0 1 0V6.435l.106-.01c.316-.024.584-.01.708.04.118.046.3.207.486.43.081.096.15.19.2.259V8.5a.5.5 0 0 0 1 0v-1h.342a1 1 0 0 1 .995 1.1l-.271 2.715a2.5 2.5 0 0 1-.317.991l-1.395 2.442a.5.5 0 0 1-.434.252H6.035a.5.5 0 0 1-.416-.223l-1.433-2.15a1.5 1.5 0 0 1-.243-.666l-.345-3.105a.5.5 0 0 1 .399-.546L5 8.11V9a.5.5 0 0 0 1 0V1.75A.75.75 0 0 1 6.75 1M8.5 4.466V1.75a1.75 1.75 0 1 0-3.5 0v5.34l-1.2.24a1.5 1.5 0 0 0-1.196 1.636l.345 3.106a2.5 2.5 0 0 0 .405 1.11l1.433 2.15A1.5 1.5 0 0 0 6.035 16h6.385a1.5 1.5 0 0 0 1.302-.756l1.395-2.441a3.5 3.5 0 0 0 .444-1.389l.271-2.715a2 2 0 0 0-1.99-2.199h-.581a5 5 0 0 0-.195-.248c-.191-.229-.51-.568-.88-.716-.364-.146-.846-.132-1.158-.108l-.132.012a1.26 1.26 0 0 0-.56-.642 2.6 2.6 0 0 0-.738-.288c-.31-.062-.739-.058-1.05-.046zm2.094 2.025"/>
+       </svg>
+                   </button>
+                   
+                   <button
+                     (click)="resetOriginalTransform()"
+                     class="bi bi-arrow-repeat"
+                   >
+                    <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="w-5 h-5 bi bi-arrow-repeat" viewBox="0 0 16 16">
+           <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
+           <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
+         </svg>
+                   </button>
+                 </div>
+                 <div class="flex gap-4 mt-4">
+     </div>
+     
+               </div>
+             }
+         
+             <!-- Segmented Image Viewer -->
+             @if (showSegViewer) {
+               <div class="w-full">
+                 <!-- <h3 class="text-lg mb-2">Segmented Image</h3> -->
+                 <div class="bg-black image-section relative segmented-image-section rounded-t-lg border-4  border-[#202022] flex items-center justify-center"
+                 [ngClass]="measurementCalc ? 'h-[300px]' : 'h-[550px]'"
+                 >
+                 
+                   <img
+                   #segmentedImage
+                   [src]="segmentedImageUrl"
+                   alt="Segmented Image"
+                   class="max-h-full max-w-full object-contain"
+                   />
+                   <canvas
+                     #segmentedCanvas
+                     class="absolute top-0 left-0 w-full h-full pointer-events-auto"
+                     (mousedown)="startMeasuring($event)"
+                      (mousemove)="updateMeasuring($event)"
+                      (mouseup)="endMeasuring($event)"
+                   ></canvas>
+                 </div>
+                 <div class="tools panel bg-[#202022] pl-2 pb-1 rounded-b-lg flex space-x-2 h-6">
+                  <!-- <p>Segmented image URL: {{ segmentedImageUrl }}</p> -->
+         
+                   <button
+                     (click)="zoomInSegmented()"
+                     class="bi bi-zoom-in"
+                   >
+                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-zoom-in" viewBox="0 0 16 16">
+           <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11M13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/>
+           <path d="M10.344 11.742q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1 6.5 6.5 0 0 1-1.398 1.4z"/>
+           <path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5"/>
+         </svg>
+                   </button>
+                   <button
+                     (click)="zoomOutSegmented()"
+                     class="bi bi-zoom-out"
+                   >
+                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-zoom-out" viewBox="0 0 16 16">
+           <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11M13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/>
+           <path d="M10.344 11.742q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1 6.5 6.5 0 0 1-1.398 1.4z"/>
+           <path fill-rule="evenodd" d="M3 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5"/>
+         </svg>
+                   </button>
+                   <button
+                     (click)="rotateSegmented()"
+                     class="bi bi-arrow-counterclockwise"
+                   >
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5 bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+           <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+           <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+         </svg>
+                   </button>
+                   <button (click)="mode = 'measure'" >
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+       <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
+     </svg>
+                   </button>
+                   <button (click)="mode = 'pan'">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-index" viewBox="0 0 16 16">
+         <path d="M6.75 1a.75.75 0 0 1 .75.75V8a.5.5 0 0 0 1 0V5.467l.086-.004c.317-.012.637-.008.816.027.134.027.294.096.448.182.077.042.15.147.15.314V8a.5.5 0 1 0 1 0V6.435l.106-.01c.316-.024.584-.01.708.04.118.046.3.207.486.43.081.096.15.19.2.259V8.5a.5.5 0 0 0 1 0v-1h.342a1 1 0 0 1 .995 1.1l-.271 2.715a2.5 2.5 0 0 1-.317.991l-1.395 2.442a.5.5 0 0 1-.434.252H6.035a.5.5 0 0 1-.416-.223l-1.433-2.15a1.5 1.5 0 0 1-.243-.666l-.345-3.105a.5.5 0 0 1 .399-.546L5 8.11V9a.5.5 0 0 0 1 0V1.75A.75.75 0 0 1 6.75 1M8.5 4.466V1.75a1.75 1.75 0 1 0-3.5 0v5.34l-1.2.24a1.5 1.5 0 0 0-1.196 1.636l.345 3.106a2.5 2.5 0 0 0 .405 1.11l1.433 2.15A1.5 1.5 0 0 0 6.035 16h6.385a1.5 1.5 0 0 0 1.302-.756l1.395-2.441a3.5 3.5 0 0 0 .444-1.389l.271-2.715a2 2 0 0 0-1.99-2.199h-.581a5 5 0 0 0-.195-.248c-.191-.229-.51-.568-.88-.716-.364-.146-.846-.132-1.158-.108l-.132.012a1.26 1.26 0 0 0-.56-.642 2.6 2.6 0 0 0-.738-.288c-.31-.062-.739-.058-1.05-.046zm2.094 2.025"/>
+       </svg>
+                   </button>
+                   <button
+                     (click)="resetSegmentedTransform()"
+                     class="bi bi-arrow-repeat"
+                   >
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5 bi bi-arrow-repeat" viewBox="0 0 16 16">
+           <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
+           <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
+         </svg>
+                   </button>
+                 </div>
+               </div>
+             }
+           </div>
+           
+           <div class="flex space-x-1 w-full ml-[2px] mt-0">
+             @if (measurementCalc) {
+              <!-- Original Image Viewer -->
+             @if (secondSelectedFrameUrl) {
+               <div class="w-full">
+                 <!-- <h3 class="text-lg mb-2">Original Image</h3> -->
+                 <div class="bg-black image-section relative original-image-section rounded-t-lg border-4 h-[300px] border-[#202022] flex items-center justify-center">
+                   <!-- <div class="bg-black image-section relative original-image-section rounded-lg border-2 border-gray-800"> -->
+         
+                   <img
+                     
+                     [src]="secondSelectedFrameUrl"
+                     alt="Original Image"
+                     class="max-h-full max-w-full object-contain"
+                   />
+                   <!-- <canvas
+                     #canvas
+                     class="absolute top-0 left-0 w-full h-full pointer-events-auto"
+                     (mousedown)="startMeasuring($event)"
+                      (mousemove)="updateMeasuring($event)"
+                      (mouseup)="endMeasuring($event)"
+                   ></canvas> -->
+                 </div>
+         
+                 <div class="tools panel bg-[#202022] pl-2 pb-1 rounded-b-lg flex space-x-2 h-6">
+                   <button
+                     (click)="zoomInOriginal()"
+                     class="bi bi-zoom-in"
+                     
+                   >
+                   <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-zoom-in" viewBox="0 0 16 16">
+           <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11M13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/>
+           <path d="M10.344 11.742q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1 6.5 6.5 0 0 1-1.398 1.4z"/>
+           <path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5"/>
+         </svg>
+                   
+                   </button>
+                   <button
+                     (click)="zoomOutOriginal()"
+                     class="bi bi-zoom-out"
+                   >
+                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-zoom-out" viewBox="0 0 16 16">
+           <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11M13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/>
+           <path d="M10.344 11.742q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1 6.5 6.5 0 0 1-1.398 1.4z"/>
+           <path fill-rule="evenodd" d="M3 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5"/>
+         </svg>
+                   </button>
+                   <button
+                     (click)="rotateOriginal()"
+                     class="bi bi-arrow-counterclockwise"
+                   >
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5 bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+           <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+           <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+         </svg>
+                   </button>
+         
+                   <button (click)="mode = 'measure'" >
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+       <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
+     </svg>
+                   </button>
+                   <button (click)="mode = 'pan'">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-index" viewBox="0 0 16 16">
+         <path d="M6.75 1a.75.75 0 0 1 .75.75V8a.5.5 0 0 0 1 0V5.467l.086-.004c.317-.012.637-.008.816.027.134.027.294.096.448.182.077.042.15.147.15.314V8a.5.5 0 1 0 1 0V6.435l.106-.01c.316-.024.584-.01.708.04.118.046.3.207.486.43.081.096.15.19.2.259V8.5a.5.5 0 0 0 1 0v-1h.342a1 1 0 0 1 .995 1.1l-.271 2.715a2.5 2.5 0 0 1-.317.991l-1.395 2.442a.5.5 0 0 1-.434.252H6.035a.5.5 0 0 1-.416-.223l-1.433-2.15a1.5 1.5 0 0 1-.243-.666l-.345-3.105a.5.5 0 0 1 .399-.546L5 8.11V9a.5.5 0 0 0 1 0V1.75A.75.75 0 0 1 6.75 1M8.5 4.466V1.75a1.75 1.75 0 1 0-3.5 0v5.34l-1.2.24a1.5 1.5 0 0 0-1.196 1.636l.345 3.106a2.5 2.5 0 0 0 .405 1.11l1.433 2.15A1.5 1.5 0 0 0 6.035 16h6.385a1.5 1.5 0 0 0 1.302-.756l1.395-2.441a3.5 3.5 0 0 0 .444-1.389l.271-2.715a2 2 0 0 0-1.99-2.199h-.581a5 5 0 0 0-.195-.248c-.191-.229-.51-.568-.88-.716-.364-.146-.846-.132-1.158-.108l-.132.012a1.26 1.26 0 0 0-.56-.642 2.6 2.6 0 0 0-.738-.288c-.31-.062-.739-.058-1.05-.046zm2.094 2.025"/>
+       </svg>
+                   </button>
+                   
+                   <button
+                     (click)="resetOriginalTransform()"
+                     class="bi bi-arrow-repeat"
+                   >
+                    <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="w-5 h-5 bi bi-arrow-repeat" viewBox="0 0 16 16">
+           <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
+           <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
+         </svg>
+                   </button>
+                 </div>
+                 <div class="flex gap-4 mt-4">
+     </div>
+     
+               </div>
+             }
+         
+             <!-- Segmented Image Viewer -->
+             @if (segmentedImageUrl2) {
+               <div class="w-full">
+                 <!-- <h3 class="text-lg mb-2">Segmented Image</h3> -->
+                 <div class="bg-black image-section relative segmented-image-section rounded-t-lg border-4 h-[300px] border-[#202022] flex items-center justify-center">
+                 
+                   <img
+                   #segmentedImage2
+                   [src]="segmentedImageUrl2"
+                   alt="Segmented Image2"
+                   class="max-h-full max-w-full object-contain"
+                   />
+                   <!-- <canvas
+                     #segmentedCanvas
+                     class="absolute top-0 left-0 w-full h-full pointer-events-auto"
+                     (mousedown)="startMeasuring($event)"
+                      (mousemove)="updateMeasuring($event)"
+                      (mouseup)="endMeasuring($event)"
+                   ></canvas> -->
+                 </div>
+                 <div class="tools panel bg-[#202022] pl-2 pb-1 rounded-b-lg flex space-x-2 h-6">
+         
+                   <button
+                     (click)="zoomInSegmented()"
+                     class="bi bi-zoom-in"
+                   >
+                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-zoom-in" viewBox="0 0 16 16">
+           <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11M13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/>
+           <path d="M10.344 11.742q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1 6.5 6.5 0 0 1-1.398 1.4z"/>
+           <path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5"/>
+         </svg>
+                   </button>
+                   <button
+                     (click)="zoomOutSegmented()"
+                     class="bi bi-zoom-out"
+                   >
+                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-zoom-out" viewBox="0 0 16 16">
+           <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11M13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/>
+           <path d="M10.344 11.742q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1 6.5 6.5 0 0 1-1.398 1.4z"/>
+           <path fill-rule="evenodd" d="M3 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5"/>
+         </svg>
+                   </button>
+                   <button
+                     (click)="rotateSegmented()"
+                     class="bi bi-arrow-counterclockwise"
+                   >
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5 bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+           <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+           <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+         </svg>
+                   </button>
+                   <button (click)="mode = 'measure'" >
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+       <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
+     </svg>
+                   </button>
+                   <button (click)="mode = 'pan'">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-index" viewBox="0 0 16 16">
+         <path d="M6.75 1a.75.75 0 0 1 .75.75V8a.5.5 0 0 0 1 0V5.467l.086-.004c.317-.012.637-.008.816.027.134.027.294.096.448.182.077.042.15.147.15.314V8a.5.5 0 1 0 1 0V6.435l.106-.01c.316-.024.584-.01.708.04.118.046.3.207.486.43.081.096.15.19.2.259V8.5a.5.5 0 0 0 1 0v-1h.342a1 1 0 0 1 .995 1.1l-.271 2.715a2.5 2.5 0 0 1-.317.991l-1.395 2.442a.5.5 0 0 1-.434.252H6.035a.5.5 0 0 1-.416-.223l-1.433-2.15a1.5 1.5 0 0 1-.243-.666l-.345-3.105a.5.5 0 0 1 .399-.546L5 8.11V9a.5.5 0 0 0 1 0V1.75A.75.75 0 0 1 6.75 1M8.5 4.466V1.75a1.75 1.75 0 1 0-3.5 0v5.34l-1.2.24a1.5 1.5 0 0 0-1.196 1.636l.345 3.106a2.5 2.5 0 0 0 .405 1.11l1.433 2.15A1.5 1.5 0 0 0 6.035 16h6.385a1.5 1.5 0 0 0 1.302-.756l1.395-2.441a3.5 3.5 0 0 0 .444-1.389l.271-2.715a2 2 0 0 0-1.99-2.199h-.581a5 5 0 0 0-.195-.248c-.191-.229-.51-.568-.88-.716-.364-.146-.846-.132-1.158-.108l-.132.012a1.26 1.26 0 0 0-.56-.642 2.6 2.6 0 0 0-.738-.288c-.31-.062-.739-.058-1.05-.046zm2.094 2.025"/>
+       </svg>
+                   </button>
+                   <button
+                     (click)="resetSegmentedTransform()"
+                     class="bi bi-arrow-repeat"
+                   >
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5 bi bi-arrow-repeat" viewBox="0 0 16 16">
+           <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
+           <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
+         </svg>
+                   </button>
+                 </div>
+               </div>
+             }
+             }
+             
+           
+         </div>
+         </div>
+      
+
+      
+      @if (measurementCalc) {
+        <div class="w-64 ml-1">
+          <app-measurement-panel [measurements]="measurementData"></app-measurement-panel>
+        </div>
+      }
+      
+    </div>
+    
+    
+  </div>
+</div>
+<!-- <button
+  class="px-4 py-2 mt-1 ml-2 bg-blue-600 text-white rounded text-sm font-medium hover:bg-blue-700 mb-4"
+  
+  (click)="toggleMeasurementCalc()"
+>
+  Measurement
+</button> -->
+}
+
+
+<!-- Modal -->
+@if (showClinicalModal) {
+  <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center">
+    <div class="bg-[#202022] text-white p-6 rounded-xl shadow-lg max-w-md w-full mx-4 border border-gray-700">
+
+      <!-- Message -->
+      <p class="text-center text-sm text-gray-300 mb-4">
+        Please upload the second time frame to proceed with clinical parameter analysis.
+      </p>
+
+      <!-- Hidden File Input -->
+      <input
+        type="file"
+        #fileInput
+        (change)="onFileSelected($event)"
+        accept="image/*"
+        class="hidden"
+      />
+
+    <!-- Upload Instruction and Buttons -->
+     @if(!secondSelectedFrame){
+      <div class="flex justify-center gap-4 mb-4">
+      <!-- Upload Button -->
+      <button
+        (click)="fileInput.click()"
+        class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700 transition">
+        Upload Image
+      </button>
+
+      <!-- Cancel Button -->
+      <button
+        (click)="closeModal()"
+        class="bg-gray-600 px-4 py-2 rounded hover:bg-gray-700 transition">
+        Cancel
+      </button>
+    </div>
+
+     }
+    
+
+      <!-- Preview -->
+      @if (secondSelectedFrame) {
+        <div class="mb-4 text-center">
+          <img
+            [src]="secondSelectedFrame"
+            alt="Second Time Frame"
+            class="mx-auto rounded max-h-56 border border-gray-600"
+          />
+        </div>
+      }
+
+      <!-- Next Button (only shown when image is uploaded) -->
+      @if (secondSelectedFrame) {
+        <div class="flex justify-center mt-2 space-x-1">
+          <!-- Upload Again / Remove Image -->
+        <button
+          
+          class="bg-red-600 px-4 py-2 rounded hover:bg-red-700 transition"(click)="onUploadClick()">
+          Upload Again
+        </button>
+          <button
+            (click)="backToViewers()"
+            
+            class="bg-green-600 px-4 py-2 rounded hover:bg-green-700 transition">
+            Next
+            @if(checkSeconedNextBtn){
+              <span><li class="fas fa-spin fa-spinner"></li></span>
+            }
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+}
+

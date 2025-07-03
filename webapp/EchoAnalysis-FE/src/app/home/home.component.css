@@ -1,0 +1,60 @@
+/* div{
+    text-align: center;
+    border: 2px solid red;
+    
+} */
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  /* cursor: pointer; */
+  background-color: #f5f5f5;
+  border: 2px black ;
+}
+
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #f5f5f5;
+}
+
+.upload-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.upload-button:hover {
+  background-color: #1565c0;
+}
+
+.plus-icon {
+  margin-right: 8px;
+  font-size: 20px;
+  vertical-align: middle;
+}
+
+/* Ensure smooth transitions */
+.main-content {
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    @apply ml-16; /* Default to collapsed sidebar margin */
+  }
+}

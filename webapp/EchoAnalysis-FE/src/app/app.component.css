@@ -1,0 +1,22 @@
+/* Ensure smooth transitions */
+.transition-all {
+  transition-property: margin-left, width, transform;
+  transition-duration: 300ms;
+  transition-timing-function: ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  app-sidebar {
+    width: 64px !important; /* Collapsed by default on mobile */
+  }
+  main {
+    margin-left: 64px !important; /* Default margin on mobile */
+  }
+  .-translate-x-full {
+    transform: translateX(-100%);
+  }
+  .translate-x-0 {
+    transform: translateX(0);
+  }
+}

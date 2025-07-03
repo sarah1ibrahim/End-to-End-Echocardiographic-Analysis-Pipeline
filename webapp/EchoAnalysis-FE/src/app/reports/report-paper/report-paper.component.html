@@ -1,0 +1,233 @@
+<div class="report-container p-4 text-[10px] space-y-2 leading-tight">
+<!-- report-container p-2 text-[10px] space-y-2 leading-tight -->
+  <!-- 1. Logo & Clinic Info Section -->
+  <div class="flex justify-between items-start">
+    <div class="flex items-center space-x-2">
+      <img src="../../../assets/images/11.png" alt="Clinic Logo" class="h-12 aspect-auto">
+      <div class="text-base">
+        <div class="font-bold">EchoHeart Clinic</div>
+        <div class="text-gray-700 text-xs">Cardiovascular Imaging Unit</div>
+      </div>
+    </div>
+    <div class="text-right text-xs space-y-1">
+      <div><strong>Address:</strong> 123 Cardio St, Health City</div>
+      <div><strong>Phone:</strong> +20 123 456 789</div>
+      <div><strong>Email:</strong> info&#64;echoheart.com</div>
+    </div>
+  </div>
+
+  <!-- 2. Report Title -->
+  <h2 class="text-base font-bold text-center border-b py-2">Transthoracic Echocardiography Report</h2>
+
+  <!-- 3. Demographic Data -->
+<div class="mt-4">
+  <!-- <h3 class="text-sm font-bold border-b pb-1 mb-2">Patient Demographics</h3> -->
+
+  <!-- Row 1 -->
+  <div class="grid grid-cols-4 gap-4 text-xs mb-2">
+    <!-- Name -->
+    <div>
+      <span class="font-semibold">Name:</span>
+      <ng-container *ngIf="isEditing; else nameText">
+        <div class="flex gap-1">
+          <input [(ngModel)]="patient.first_name" placeholder="First" class="border p-0.5 w-1/2" />
+          <input [(ngModel)]="patient.last_name" placeholder="Last" class="border p-0.5 w-1/2" />
+        </div>
+      </ng-container>
+      <ng-template #nameText>{{ patient.first_name }} {{ patient.last_name }}</ng-template>
+    </div>
+
+    <!-- ID -->
+    <div>
+      <span class="font-semibold">Patient ID:</span>
+      <ng-container *ngIf="isEditing; else idText">
+        <input [(ngModel)]="patient.id" class="border p-0.5 w-full" />
+      </ng-container>
+      <ng-template #idText>{{ patient.id }}</ng-template>
+    </div>
+
+    <!-- DOB -->
+    <div>
+      <span class="font-semibold">Date of Birth:</span>
+      <ng-container *ngIf="isEditing; else dobText">
+        <input [(ngModel)]="patient.Bdate" class="border p-0.5 w-full" />
+      </ng-container>
+      <ng-template #dobText>{{ patient.Bdate }}</ng-template>
+    </div>
+
+    <!-- Gender -->
+    <div>
+      <span class="font-semibold">Gender:</span>
+      <ng-container *ngIf="isEditing; else genderText">
+        <input [(ngModel)]="patient.sex" class="border p-0.5 w-full" />
+      </ng-container>
+      <ng-template #genderText>{{ patient.sex }}</ng-template>
+    </div>
+  </div>
+
+  <!-- Row 2 -->
+  <div class="grid grid-cols-4 gap-4 text-xs mb-2">
+    <div>
+      <span class="font-semibold">Weight (kg):</span>
+      <ng-container *ngIf="isEditing; else wtText">
+        <input [(ngModel)]="patient.weight" class="border p-0.5 w-full" />
+      </ng-container>
+      <ng-template #wtText>{{ patient.weight }}</ng-template>
+    </div>
+    <div>
+      <span class="font-semibold">Height (cm):</span>
+      <ng-container *ngIf="isEditing; else htText">
+        <input [(ngModel)]="patient.height" class="border p-0.5 w-full" />
+      </ng-container>
+      <ng-template #htText>{{ patient.height }}</ng-template>
+    </div>
+    <div>
+      <span class="font-semibold">HR (bpm):</span>
+      <ng-container *ngIf="isEditing; else hrText">
+        <input [(ngModel)]="patient.hr" class="border p-0.5 w-full" />
+      </ng-container>
+      <ng-template #hrText>105</ng-template>
+    </div>
+    <div>
+      <span class="font-semibold">BP (mmHg):</span>
+      <ng-container *ngIf="isEditing; else bpText">
+        <input [(ngModel)]="patient.bp" class="border p-0.5 w-full" />
+      </ng-container>
+      <ng-template #bpText>95/60</ng-template>
+    </div>
+  </div>
+
+  <!-- Row 3 -->
+  <div class="grid grid-cols-2 gap-4 text-xs">
+    <div>
+      <span class="font-semibold">Indication:</span>
+      <ng-container *ngIf="isEditing; else indText">
+        <input [(ngModel)]="measurements['interpretation']" class="border p-0.5 w-full" />
+      </ng-container>
+      <ng-template #indText>{{ measurements['interpretation'] }}</ng-template>
+    </div>
+
+    <div>
+      <span class="font-semibold">Study Date:</span>
+      <ng-container *ngIf="isEditing; else dateText">
+        <input [(ngModel)]="patient.createdAt" class="border p-0.5 w-full" />
+      </ng-container>
+      <ng-template #dateText>{{ patient.createdAt | date:'d MMMM y, h:mm a' }}</ng-template>
+    </div>
+  </div>
+</div>
+
+
+ <!-- 4. Measurements Table -->
+<table class="w-full border-y border-gray-300 text-xs">
+      <thead>
+        <tr>
+          <th class="font-bold px-2 py-1 text-left">Measurement</th>
+          <th class="font-bold px-2 py-1 text-right">Value</th>
+          <th class="font-bold px-2 py-1 text-right ">Normal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="px-2 py-1 ">EF</td>
+          <td class="px-2 py-1 text-right">
+            <ng-container *ngIf="isEditing; else EFText">
+              <input [(ngModel)]="measurements['EF']" class="border text-xs p-0.5 w-full" />
+            </ng-container>
+            <ng-template #EFText>{{ measurements['EF'] }}</ng-template>
+          </td>
+          <td class="px-2 py-1 text-right">55 – 70%</td>
+        </tr>
+      
+        <tr>
+          <td class="px-2 py-1 ">EDV</td>
+          <td class="px-2 py-1 text-right">
+            <ng-container *ngIf="isEditing; else EDVText">
+              <input [(ngModel)]="measurements['EDV']" class="border text-xs p-0.5 w-full" />
+            </ng-container>
+            <ng-template #EDVText>{{ measurements['EDV'] }}</ng-template>
+          </td>
+          <td class="px-2 py-1 text-right">65 – 240 mL</td>
+        </tr>
+      
+        <tr>
+          <td class="px-2 py-1 ">ESV</td>
+          <td class="px-2 py-1 text-right">
+            <ng-container *ngIf="isEditing; else ESVText">
+              <input [(ngModel)]="measurements['ESV']" class="border text-xs p-0.5 w-full" />
+            </ng-container>
+            <ng-template #ESVText>{{ measurements['ESV'] }}</ng-template>
+          </td>
+          <td class="px-2 py-1 text-right">16 – 143 mL</td>
+        </tr>
+      
+        <tr>
+          <td class="px-2 py-1 ">SV</td>
+          <td class="px-2 py-1 text-right">
+            <ng-container *ngIf="isEditing; else SVText">
+              <input [(ngModel)]="measurements['SV']" class="border text-xs p-0.5 w-full" />
+            </ng-container>
+            <ng-template #SVText>{{ measurements['SV'] }}</ng-template>
+          </td>
+          <td class="px-2 py-1 text-right">60 – 120 mL</td>
+        </tr>
+      
+        <tr>
+          <td class="px-2 py-1 ">MV</td>
+          <td class="px-2 py-1 text-right">
+            <ng-container *ngIf="isEditing; else MVText">
+              <input [(ngModel)]="measurements['MV']" class="border text-xs p-0.5 w-full" />
+            </ng-container>
+            <ng-template #MVText>{{ measurements['MV'] }}</ng-template>
+          </td>
+          <td class="px-2 py-1 text-right">60 – 130 mL</td>
+        </tr>
+      
+        <tr>
+          <td class="px-2 py-1 ">BV</td>
+          <td class="px-2 py-1 text-right">
+            <ng-container *ngIf="isEditing; else BVText">
+              <input [(ngModel)]="measurements['BV']" class="border text-xs p-0.5 w-full" />
+            </ng-container>
+            <ng-template #BVText>{{ measurements['BV'] }}</ng-template>
+          </td>
+          <td class="px-2 py-1 text-right">~5000 mL (70 mL/kg)</td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+<!-- 5. Findings -->
+<div>
+  <h3 class="font-bold text-sm mt-4 mb-2">Findings</h3>
+
+  <ng-container *ngIf="isEditing; else findingsPreview">
+    <textarea [(ngModel)]="findings"
+              class="border w-full p-3 text-[13px] font-sans leading-relaxed resize-y min-h-[500px]"
+              placeholder="Enter findings in Markdown format..."></textarea>
+  </ng-container>
+
+  <ng-template #findingsPreview>
+    <div class="prose prose-sm max-w-none text-[13px]">
+      <markdown [data]="findings"></markdown>
+    </div>
+  </ng-template>
+</div>
+
+
+
+
+  <!-- 6. Summary -->
+  <!-- <div>
+    <h3 class="font-bold text-sm mt-4 mb-2">Summary</h3>
+    <ul class="list-disc list-inside text-xs space-y-1">
+      <li *ngFor="let summary of summaryPoints; let j = index">
+        <ng-container *ngIf="isEditing; else summaryText">
+          <input [(ngModel)]="summaryPoints[j]" class="border text-xs p-0.5 w-full" />
+        </ng-container>
+        <ng-template #summaryText>{{ summary }}</ng-template>
+      </li>
+    </ul>
+  </div> -->
+</div>

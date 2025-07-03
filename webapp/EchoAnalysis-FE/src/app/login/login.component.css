@@ -1,0 +1,5 @@
+/* src/app/login/login.component.css */
+:host {
+  display: block;
+  min-height: 100vh;
+}

@@ -1,0 +1,18 @@
+<div  class="flex min-h-screen">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Main Content -->
+  <div
+    class="flex-1 transition-all duration-300 w-full"
+    [ngClass]="{
+      'ml-56': !isSidebarCollapsed,
+      'ml-16': isSidebarCollapsed
+    }"
+  >
+    <!-- Nested Router Outlet -->
+    <div class="pt-2 pl-0 pr-0 ">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

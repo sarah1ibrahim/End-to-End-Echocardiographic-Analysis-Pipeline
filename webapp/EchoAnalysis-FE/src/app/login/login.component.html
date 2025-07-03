@@ -1,0 +1,55 @@
+<div class="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-gray-800 overflow-hidden">
+  <!-- Blurred circle background effect -->
+  <div class="absolute w-[600px] h-[600px] bg-green-600 opacity-20 rounded-full -top-40 -left-40 blur-3xl"></div>
+  <div class="absolute w-[400px] h-[400px] bg-green-400 opacity-10 rounded-full -bottom-20 -right-20 blur-3xl"></div>
+
+  <!-- Login Card -->
+  <div class="z-10 w-full max-w-md bg-[#1c1c1e]/80 backdrop-blur-md border border-[#2a2a2a] rounded-2xl shadow-xl p-8">
+    <!-- Logo -->
+    <div class="text-center mb-6">
+      <img src="../../assets/images/11.png" alt="Logo" class="h-16 aspect-auto mx-auto mb-2" />
+      <h2 class="text-2xl font-bold text-white">Welcome Back</h2>
+      <p class="text-sm text-gray-400">Sign in to continue</p>
+    </div>
+
+    <!-- Form -->
+    <form (ngSubmit)="login()" class="space-y-4">
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email <span class="text-red-500">*</span></label>
+        <input
+          id="email"
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="Enter your email"
+          class="w-full px-3 py-2 text-sm text-white bg-[#0e0e0e] border border-[#2f2f2f] rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-300 mb-1">Password <span class="text-red-500">*</span></label>
+        <input
+          id="password"
+          type="password"
+          [(ngModel)]="password"
+          name="password"
+          placeholder="Enter your password"
+          class="w-full px-3 py-2 text-sm text-white bg-[#0e0e0e] border border-[#2f2f2f] rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+          required
+        />
+      </div>
+
+      @if (error) {
+        <p class="text-red-500 text-sm">{{ error }}</p>
+      }
+
+      <button
+        type="submit"
+        class="w-full py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition duration-200"
+      >
+        Login
+      </button>
+    </form>
+  </div>
+</div>
