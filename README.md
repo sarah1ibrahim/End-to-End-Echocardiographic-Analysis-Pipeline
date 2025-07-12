@@ -151,12 +151,23 @@ cd End-to-End-Echocardiographic-Analysis-Pipeline
 pip install -r requirements.txt
 ```
 
-3. Run segmentation or web server:
+3. Run segmentation model:
 ```bash
 python CAMUS/Model/U-Net/segment.py
 cd webapp && python app.py
 ```
-
+4. Run backend server:
+```bash
+cd webapp/EchoAnalysis-BE
+npm install
+npm start
+```
+5. Run run frontend (Angular app):
+```bash
+cd webapp/frontend
+npm install
+ng serve
+```
 ---
 
 ## Project Report & Resources
