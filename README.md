@@ -2,6 +2,29 @@
 # End-to-End Echocardiographic Analysis Pipeline  
 **AI-Powered Assessment and Reporting of Heart Function**
 
+[![PyTorch](https://img.shields.io/badge/Framework-PyTorch-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![MONAI](https://img.shields.io/badge/Medical_AI-MONAI-005BBB?logo=monai&logoColor=white)](https://monai.io/)
+[![Torchvision](https://img.shields.io/badge/Library-Torchvision-2C5E9E?logo=python&logoColor=white)](https://pytorch.org/vision/stable/)
+[![TorchMetrics](https://img.shields.io/badge/Evaluation-TorchMetrics-5932a8?logo=python&logoColor=white)](https://torchmetrics.readthedocs.io/en/stable/)
+
+[![UNet](https://img.shields.io/badge/Backbone-U--Net-4B8BBE)](https://github.com/milesial/Pytorch-UNet)
+[![SAM](https://img.shields.io/badge/Foundation_Model-SAM-FF8800)](https://github.com/facebookresearch/segment-anything)
+[![MedSAM](https://img.shields.io/badge/Foundation_Model-MedSAM-8E44AD)](https://github.com/bowang-lab/MedSAM)
+[![Fine-tuned SAM](https://img.shields.io/badge/Model-Fine--tuned%20SAM-00BCD4)](https://github.com/facebookresearch/segment-anything)
+
+[![LLM](https://img.shields.io/badge/LLM-Gemini_2.5_Flash-4285F4)](https://deepmind.google/technologies/gemini/)
+[![SBERT](https://img.shields.io/badge/NLP-SBERT-0A9396)](https://www.sbert.net/)
+
+[![Angular](https://img.shields.io/badge/Frontend-Angular-DD0031?logo=angular&logoColor=white)](https://angular.io/)
+[![TailwindCSS](https://img.shields.io/badge/UI-Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Node.js](https://img.shields.io/badge/Backend-Node.js-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express.js](https://img.shields.io/badge/API-Express.js-000000?logo=express&logoColor=white)](https://expressjs.com/)
+[![MySQL](https://img.shields.io/badge/Database-MySQL-4479A1?logo=mysql&logoColor=white)](https://www.mysql.com/)
+
+[![Docker](https://img.shields.io/badge/Container-Docker-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![AWS S3](https://img.shields.io/badge/Storage-AWS_S3-FF9900?logo=amazon-aws&logoColor=white)](https://aws.amazon.com/s3/)
+
+
 ---
 
 ## Overview
