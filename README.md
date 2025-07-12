@@ -8,7 +8,7 @@
 
 Cardiovascular diseases (CVDs) are the leading cause of death globally, and echocardiography is a key diagnostic tool. However, manual interpretation is complex, time-intensive, and requires expert cardiologists. This project presents an **AI-powered end-to-end echocardiographic analysis pipeline** that automates cardiac structure segmentation, clinical parameter estimation, and structured report generation, all through a web application.
 
-Our system supports supervised (U-Net) and self-supervised (SAM, MedSAM) segmentation models, ejection fraction estimation using the Area-Length method, and report generation with Large Language Models (LLMs), integrated into a full-stack web platform to help cardiologists in automating and analyzing the echocardiographic workflow..
+Our system supports supervised (U-Net) and self-supervised (SAM, MedSAM) segmentation models, ejection fraction estimation using the Area-Length method, and report generation with Large Language Models (LLMs), integrated into a full-stack web platform to help cardiologists in automating and analyzing the echocardiographic workflow.
 
 ---
 
@@ -45,7 +45,7 @@ https://github.com/user-attachments/assets/ee0f611e-41d3-499a-9ed3-3c751f92d0cf
 graph TD
     A[Upload Echo Images] --> B[Preprocessing]
     B --> C[Segmentation: U-Net / SAM]
-    C --> D[EF, EDV, ESV Calculation]
+    C --> D[EF, EDV, ESV, SV, BV Calculation]
     D --> E[LLM Report Generation]
     E --> F[Interactive Web Application]
 ```
@@ -153,7 +153,7 @@ cd webapp && python app.py
   
 | <a href="https://github.com/RanaHany10"><img src="https://avatars.githubusercontent.com/u/115092108?v=4" width="100px" alt="RanaHany10"></a> | <a href="https://github.com/sarah1ibrahim"><img src="https://avatars.githubusercontent.com/u/115026687?v=4" width="100px" alt="sarah1ibrahim"></a> | <a href="https://github.com/Sarah2332"><img src="https://avatars.githubusercontent.com/u/103162590?v=4" width="100px" alt="Sarah2332"></a> | <a href="https://github.com/LunaEyad"><img src="https://avatars.githubusercontent.com/u/103345380?v=4" width="100px" alt="LunaEyad"></a> | <a href="https://github.com/JasmineTJ"><img src="https://avatars.githubusercontent.com/u/105980355?v=4" width="100px" alt="JasmineTJ"></a> |
 |:---:|:---:|:---:|:---:|:---:|
-| [Rana Hany](https://github.com/RanaHany10) | [Sarah Ibrahim](https://github.com/Sarah2332) | [Sarah Mohammed](https://github.com/sarah1ibrahim) | [Luna Eyad](https://github.com/LunaEyad) |[Yasmin Tarek](https://github.com/JasmineTJ) |
+| [Rana Hany](https://github.com/RanaHany10) | [Sarah Ibrahim](https://github.com/sarah1ibrahim) | [Sarah Mohammed](https://github.com/Sarah2332) | [Luna Eyad](https://github.com/LunaEyad) |[Yasmin Tarek](https://github.com/JasmineTJ) |
 
 </div>
  
