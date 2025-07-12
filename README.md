@@ -43,7 +43,7 @@ https://github.com/user-attachments/assets/ee0f611e-41d3-499a-9ed3-3c751f92d0cf
 
 ```mermaid
 graph TD
-    A[Upload Echo Video] --> B[Preprocessing]
+    A[Upload Echo Images] --> B[Preprocessing]
     B --> C[Segmentation: U-Net / SAM]
     C --> D[EF, EDV, ESV Calculation]
     D --> E[LLM Report Generation]
