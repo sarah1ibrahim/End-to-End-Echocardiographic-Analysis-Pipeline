@@ -62,16 +62,9 @@ https://github.com/user-attachments/assets/ee0f611e-41d3-499a-9ed3-3c751f92d0cf
 
 ---
 
-## System Architecture
+## System Workflow
 
-```mermaid
-graph TD
-    A[Upload Echo Images] --> B[Preprocessing]
-    B --> C[Segmentation: U-Net / SAM]
-    C --> D[EF, EDV, ESV, SV, BV Calculation]
-    D --> E[LLM Report Generation]
-    E --> F[Interactive Web Application]
-```
+![Image](https://github.com/user-attachments/assets/6bdc6da1-d119-49e8-8333-235c2edcc0ec)
 
 ---
 
